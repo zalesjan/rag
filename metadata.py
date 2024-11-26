@@ -21,6 +21,7 @@ def chunk_text(data: List[Dict], max_chunk_size: int = 200) -> List[Dict]:
     Returns:
         List[Dict]: List of chunks with updated metadata.
     """
+    
     chunks = []
 
     for entry in data:
@@ -32,12 +33,16 @@ def chunk_text(data: List[Dict], max_chunk_size: int = 200) -> List[Dict]:
             chunk_words = words[i:i + max_chunk_size]
             chunk_text = " ".join(chunk_words)
             chunks.append({
-                "chapter_id": entry["metadata"]["chapter_id"],
-                "chapter_name": entry["metadata"]["chapter_name"],
-                "paragraph_id": entry["metadata"]["paragraph_id"],
-                "chunk_id": f"{entry["metadata"]['paragraph_id']}_chunk_{len(chunks) + 1}",
-                "chunk_text": chunk_text
+                "text": chunk_text,  # Change key to "text"
+                "metadata": {
+                    "chapter_id": entry["metadata"]["chapter_id"],
+                    "chapter_name": entry["metadata"]["chapter_name"],
+                    "paragraph_id": entry["metadata"]["paragraph_id"],
+                    "chunk_id": f"{entry['metadata']['paragraph_id']}_chunk_{len(chunks) + 1}"
+                }
             })
 
     return chunks
+
+
 
